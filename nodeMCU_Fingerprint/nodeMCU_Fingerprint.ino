@@ -494,9 +494,8 @@ const uint8_t PROGMEM FinPr_scan_bits[] = {
 };
 //************************************************************************
 void setup() {
-  delay(1000);
+
   Serial.begin(115200);
-  delay(100);
   
   //-----------initiate OLED display-------------
   
@@ -1056,7 +1055,6 @@ void connectToWiFi(){
     
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());  //IP address assigned to your ESP
-    
-    delay(1000);
+
 }
 //=======================================================================
