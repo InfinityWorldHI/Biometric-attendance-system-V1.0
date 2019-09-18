@@ -152,7 +152,7 @@ if (isset($_POST['FingerID'])) {
                     else{
                         mysqli_stmt_execute($result);
 
-                        $sql = "INSERT INTO users (username , serialnumber, gender, fingerprint_id, fingerprint_select) VALUES (?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO users (username , serialnumber, gender, fingerprint_id, fingerprint_select) VALUES (?, ?, ?, ?, 1)";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_Select_add";
@@ -168,7 +168,7 @@ if (isset($_POST['FingerID'])) {
                     }
                 }
                 else{
-                	$sql = "INSERT INTO users (username , serialnumber, gender, fingerprint_id, fingerprint_select) VALUES (?, ?, ?, ?, ?)";
+                	$sql = "INSERT INTO users (username , serialnumber, gender, fingerprint_id, fingerprint_select) VALUES (?, ?, ?, ?, 1)";
                     $result = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($result, $sql)) {
                         echo "SQL_Error_Select_add";
