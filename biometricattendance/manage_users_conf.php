@@ -81,7 +81,7 @@ if (isset($_POST['Add'])) {
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
 
-            if (empty($row['username'])) {
+            if ($row['username']=="Name") {
 
                 if (!empty($Uname) && !empty($Number) && !empty($Email)) {
                     //check if there any user had already the Serial Number
@@ -137,6 +137,14 @@ if (isset($_POST['Add_fingerID'])) {
 
     $fingerid = $_POST['fingerid'];
 
+    $Uname = "Name";
+    $Number = "000000";
+    $Email= "Email";
+
+    //optional
+    $Timein = "00:00:00";
+    $Gender= "Gender";
+
     if ($fingerid == 0) {
         echo "Enter a Fingerprint ID!";
         exit();
@@ -165,17 +173,27 @@ if (isset($_POST['Add_fingerID'])) {
                         mysqli_stmt_execute($result);
                         $resultl = mysqli_stmt_get_result($result);
                         if (!$row = mysqli_fetch_assoc($resultl)) {
-                            $sql = "INSERT INTO users (fingerprint_id, add_fingerid) VALUES (?, 1)";
+                            //check if there any selected user
+                            $sql="UPDATE users SET fingerprint_select=0 WHERE fingerprint_select=1";
                             $result = mysqli_stmt_init($conn);
                             if (!mysqli_stmt_prepare($result, $sql)) {
                               echo "SQL_Error";
                               exit();
                             }
                             else{
-                                mysqli_stmt_bind_param($result, "i", $fingerid );
                                 mysqli_stmt_execute($result);
-                                echo "The ID is ready to get a new Fingerprint";
-                                exit();
+                                $sql = "INSERT INTO users ( username, serialnumber, gender, email, fingerprint_id, fingerprint_select, user_date, time_in, del_fingerid , add_fingerid) VALUES (?, ?, ?, ?, ?, 1, CURDATE(), ?, 0, 1)";
+                                $result = mysqli_stmt_init($conn);
+                                if (!mysqli_stmt_prepare($result, $sql)) {
+                                  echo "SQL_Error";
+                                  exit();
+                                }
+                                else{
+                                    mysqli_stmt_bind_param($result, "sdssis", $Uname, $Number, $Gender, $Email, $fingerid, $Timein );
+                                    mysqli_stmt_execute($result);
+                                    echo "The ID is ready to get a new Fingerprint";
+                                    exit();
+                                }
                             }
                         }
                         else{
@@ -184,7 +202,7 @@ if (isset($_POST['Add_fingerID'])) {
                     }   
                 }
                 else{
-                    echo "This ID is already exist!";
+                    echo "This ID is already exist! Delete it from the scanner";
                     exit();
                 }
             }
@@ -309,7 +327,7 @@ if (isset($_POST['delete'])) {
         mysqli_stmt_execute($result);
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
-            $sql="UPDATE users SET username='', serialnumber='', gender='', email='', time_in='', del_fingerid=1 WHERE fingerprint_select=1";
+            $sql="UPDATE users SET del_fingerid=1 WHERE fingerprint_select=1";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
                 echo "SQL_Error_delete";
@@ -327,4 +345,6 @@ if (isset($_POST['delete'])) {
         }
     }
 }
+mysqli_stmt_close($result);
+mysqli_close($conn);
 ?>
