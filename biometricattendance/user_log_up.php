@@ -1,8 +1,9 @@
+<?php  
+session_start();
+?>
 <table cellpadding="0" cellspacing="0" border="0">
   <tbody>
     <?php
-
-      session_start();
       //Connect to database
       require'connectDB.php';
 
