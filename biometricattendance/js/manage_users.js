@@ -28,8 +28,13 @@ $(document).ready(function(){
         $('#timein').val('');
         $('#gender').val('');
         
-        $('#alert').show();
+        $('#alert').fadeIn(500);
         $('#alert').text(response);
+        
+        setTimeout(function () {
+            $('#alert').fadeOut(500);
+        }, 5000);
+        
         $.ajax({
           url: "manage_users_up.php"
           }).done(function(data) {
@@ -41,7 +46,7 @@ $(document).ready(function(){
   // Add user Fingerprint
   $(document).on('click', '.fingerid_add', function(){
 
-    var fingerid = $('#fingerid').val();;
+    var fingerid = $('#fingerid').val();
     
     $.ajax({
       url: 'manage_users_conf.php',
@@ -53,8 +58,13 @@ $(document).ready(function(){
       success: function(response){
         $('#fingerid').val('');
         
-        $('#alert').show();
+        $('#alert').fadeIn(500);
         $('#alert').text(response);
+        
+        setTimeout(function () {
+            $('#alert').fadeOut(500);
+        }, 5000);
+        
         $.ajax({
           url: "manage_users_up.php"
           }).done(function(data) {
@@ -92,8 +102,12 @@ $(document).ready(function(){
         $('#timein').val('');
         $('#gender').val('');
 
-        $('#alert').show();
+        $('#alert').fadeIn(500);
         $('#alert').text(response);
+        
+        setTimeout(function () {
+            $('#alert').fadeOut(500);
+        }, 5000);
         
         $.ajax({
           url: "manage_users_up.php"
@@ -119,8 +133,13 @@ $(document).ready(function(){
         $('#timein').val('');
         $('#gender').val('');
 
-        $('#alert').show();
+        $('#alert').fadeIn(500);
         $('#alert').text(response);
+        
+        setTimeout(function () {
+            $('#alert').fadeOut(500);
+        }, 5000);
+        
         $.ajax({
           url: "manage_users_up.php"
           }).done(function(data) {
@@ -141,8 +160,12 @@ $(document).ready(function(){
       },
       success: function(response){
 
-        $('#alert').show();
+        $('#alert').fadeIn(500);
         $('#alert').text(response);
+        
+        setTimeout(function () {
+            $('#alert').fadeOut(500);
+        }, 5000);
 
         $.ajax({
           url: "manage_users_up.php"
