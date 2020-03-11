@@ -54,7 +54,7 @@ if (isset($_POST['FingerID'])) {
                     //*****************************************************
                     //Logout
                     else{
-                        $sql="UPDATE users_logs SET timeout=CURTIME() WHERE fingerprint_id=? AND checkindate=CURDATE()";
+                        $sql="UPDATE users_logs SET timeout=CURTIME() WHERE fingerprint_id=? AND checkindate=CURDATE() AND timeout=''";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_insert_logout1";
