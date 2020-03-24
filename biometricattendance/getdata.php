@@ -25,14 +25,14 @@ if (isset($_POST['FingerID'])) {
             if ($row['username'] != "Name"){
                 $Uname = $row['username'];
                 $Number = $row['serialnumber'];
-                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=?AND timeout=''";
+                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=? AND timeout=''";
                 $result = mysqli_stmt_init($conn);
                 if (!mysqli_stmt_prepare($result, $sql)) {
                     echo "SQL_Error_Select_logs";
                     exit();
                 }
                 else{
-                    mysqli_stmt_bind_param($result, "ss", $d, $fingerID);
+                    mysqli_stmt_bind_param($result, "ss", $fingerID, $d);
                     mysqli_stmt_execute($result);
                     $resultl = mysqli_stmt_get_result($result);
                     //*****************************************************
