@@ -1,6 +1,9 @@
 <?php  
 //Connect to database
 require 'connectDB.php';
+date_default_timezone_set('Asia/Damascus');
+$d = date("Y-m-d");
+$t = date("H:i:sa");
 
 if (isset($_POST['FingerID'])) {
     
@@ -22,21 +25,21 @@ if (isset($_POST['FingerID'])) {
             if ($row['username'] != "Name"){
                 $Uname = $row['username'];
                 $Number = $row['serialnumber'];
-                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=CURDATE() AND timeout=''";
+                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=?AND timeout=''";
                 $result = mysqli_stmt_init($conn);
                 if (!mysqli_stmt_prepare($result, $sql)) {
                     echo "SQL_Error_Select_logs";
                     exit();
                 }
                 else{
-                    mysqli_stmt_bind_param($result, "s", $fingerID);
+                    mysqli_stmt_bind_param($result, "ss", $d, $fingerID);
                     mysqli_stmt_execute($result);
                     $resultl = mysqli_stmt_get_result($result);
                     //*****************************************************
                     //Login
                     if (!$row = mysqli_fetch_assoc($resultl)){
 
-                        $sql = "INSERT INTO users_logs (username, serialnumber, fingerprint_id, checkindate, timein, timeout) VALUES (? ,?, ?, CURDATE(), CURTIME(), ?)";
+                        $sql = "INSERT INTO users_logs (username, serialnumber, fingerprint_id, checkindate, timein, timeout) VALUES (? ,?, ?, ?, ?, ?)";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_Select_login1";
@@ -44,7 +47,7 @@ if (isset($_POST['FingerID'])) {
                         }
                         else{
                             $timeout = "0";
-                            mysqli_stmt_bind_param($result, "sdis", $Uname, $Number, $fingerID, $timeout);
+                            mysqli_stmt_bind_param($result, "sdisss", $Uname, $Number, $fingerID, $d, $t, $timeout);
                             mysqli_stmt_execute($result);
 
                             echo "login".$Uname;
@@ -54,14 +57,14 @@ if (isset($_POST['FingerID'])) {
                     //*****************************************************
                     //Logout
                     else{
-                        $sql="UPDATE users_logs SET timeout=CURTIME() WHERE fingerprint_id=? AND checkindate=CURDATE() AND timeout=''";
+                        $sql="UPDATE users_logs SET timeout=? WHERE checkindate=? AND fingerprint_id=? AND timeout='0'";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_insert_logout1";
                             exit();
                         }
                         else{
-                            mysqli_stmt_bind_param($result, "i", $fingerID);
+                            mysqli_stmt_bind_param($result, "ssi", $t, $d, $fingerID);
                             mysqli_stmt_execute($result);
 
                             echo "logout".$Uname;
